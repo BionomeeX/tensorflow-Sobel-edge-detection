@@ -14,8 +14,12 @@ parser.add_argument(
 parser.add_argument(
     "-p", help="Percentile", type=float, default=99.7
 )
+parser.add_argument(
+    "-o", help="Output filename", type=str, default=None
+)
 
 args = parser.parse_args()
+
 
 img = tf.io.read_file(args.I)
 img = tf.image.decode_image(img, channels=3)
@@ -27,8 +31,14 @@ pcentile = tfp.stats.percentile( tf.image.convert_image_dtype( imgsob[0], tf.uin
 
 imgtest = tf.image.convert_image_dtype( imgsob[0], tf.uint8 )
 
-print(f'writing file {".".join(os.path.basename(args.I).split(".")[:-1]) + ".jpg"}')
+if args.o is None:
+    outfile = ".".join(os.path.basename(args.I).split(".")[:-1]) + ".jpg"
+else:
+    outfile = args.o
+
+
+print(f'writing file {outfile}')
 
 imgtest = tf.cast( imgtest > pcentile, tf.uint8) * 255
 
-tf.io.write_file(".".join(os.path.basename(args.I).split(".")[:-1]) + ".jpg", tf.image.encode_jpeg( imgtest ))
+tf.io.write_file(outfile, tf.image.encode_jpeg( imgtest ))
