@@ -9,7 +9,7 @@ without CUDA:
 
 with CUDA
 
-    conda create -n sobel-gpu python=3.9 tensorflow tensorflow-probability cudatoolkit cudnn
+    conda create -n sobel-gpu python=3.9 tensorflow-gpu tensorflow-probability cudatoolkit cudnn
 
 MAKE SURE THE ENVIRONMENT IS ACTIVATED BEFORE RUNNING THE CODE !
 
