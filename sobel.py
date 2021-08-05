@@ -3,6 +3,7 @@ import tensorflow_probability as tfp
 import argparse
 import os
 
+
 parser = argparse.ArgumentParser(
     usage="%(prog)s [OPTION] -I Input file",
     description="Sobel Edge Detection",
@@ -26,6 +27,8 @@ pcentile = tfp.stats.percentile( tf.image.convert_image_dtype( imgsob[0], tf.uin
 
 imgtest = tf.image.convert_image_dtype( imgsob[0], tf.uint8 )
 
+print(f'writing file {".".join(os.path.basename(args.I).split(".")[:-1]) + ".jpg"}')
+
 imgtest = tf.cast( imgtest > pcentile, tf.uint8) * 255
 
-tf.io.write_file(os.path.basename(args.I).split('.')[0] + "_ed.jpg", tf.image.encode_jpeg( imgtest ))
+tf.io.write_file(".".join(os.path.basename(args.I).split(".")[:-1]) + ".jpg", tf.image.encode_jpeg( imgtest ))
